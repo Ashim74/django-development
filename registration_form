@@ -1,0 +1,63 @@
+from tkinter import*
+import os
+import openpyxl
+root=Tk()
+root.geometry("450x340")
+root.resizable(0,0)
+root.title("Registration form")
+mylab=Label(root,text="Registration Form",font="29")
+l1=Label(root,text="Name")
+l2=Label(root,text="Email")
+l3=Label(root,text="Conatac No")
+l4=Label(root,text="Adress")
+mylab.grid(row=1,column=2)
+l1.grid(row=3,column=1,padx= 5, pady= 8)
+l2.grid(row=2,column=1,padx= 5, pady= 8)
+l3.grid(row=4,column=1,padx= 5, pady= 8)
+l4.grid(row=5,column=1,padx= 5, pady= 8)
+
+e1=Entry(root)
+e1.insert(0, "eg. Jhon")
+e1.grid(row=2,column=2,padx= 5, pady= 8)
+def temp_text(e):
+    e1.delete(0,"end")
+    e2.delete(0,"end")
+    e3.delete(0,"end")
+    e4.delete(0,"end")
+e1.bind("<FocusIn>",temp_text)
+
+e2=Entry(root)
+e2.insert(0, "eg. Jhon@abc.com")
+e2.bind("<FocusIn>",temp_text)
+e2.grid(row=3,column=2,padx= 5, pady= 8)
+e3=Entry(root)
+e3.insert(0, "eg.9875425125 ")
+e3.bind("<FocusIn>",temp_text)
+e3.grid(row=4,column=2,padx= 5, pady= 8)
+e4=Entry(root)
+e4.insert(0, "eg.1 park street")
+e4.bind("<FocusIn>",temp_text)
+e4.grid(row=5,column=2,padx= 5, pady= 8)
+def submit():
+    name = e1.get()
+    if name:
+        email=e2.get()
+        contact=e3.get()
+        adress=e4.get()
+    filepath = "D:\codefirst.io\Tkinter Data Entry\data.xlsx" 
+    if not os.path.exists(filepath):
+                workbook = openpyxl.Workbook()
+                sheet = workbook.active
+                heading = ["Name","Email","Contacts","Adress"]
+                sheet.append(heading)
+                workbook.save(filepath)
+    workbook = openpyxl.load_workbook(filepath)
+    sheet = workbook.active
+    sheet.append([name,email,contact,adress])
+    workbook.save(filepath)
+    e1.delete(0,"end")
+    e2.delete(0,"end")
+    e3.delete(0,"end")
+    e4.delete(0,"end")
+mybut=Button(root,text="Submit",command=submit).grid(row=6,column=2,padx= 5, pady= 8)
+root.mainloop()
